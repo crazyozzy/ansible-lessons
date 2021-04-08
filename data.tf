@@ -21,3 +21,7 @@ data "aws_ami" "latest_ubuntu" {
 output "amzn_linux_ip" {
   value = aws_instance.Ansible_training_amzn[*].public_ip
 }
+
+output "ubnt_linux_ip" {
+  value = aws_instance.Ansible_training_ubnt[*].public_ip
+}
