@@ -1,0 +1,56 @@
+---
+- name: Install Apache and upload homepage
+  hosts: all
+  become: yes
+
+  vars:
+    src_dir: web_site_jinja/
+    dest_dir: /var/www/html
+
+  tasks:
+  - name: Check and print Linux version
+    debug: var=ansible_os_family
+
+  - block:   ### Block for RedHat ###
+    - name: Install Apache for RedHat
+      yum: name=httpd state=latest
+
+    - name: Start Apache service for RedHat
+      service: name=httpd state=started enabled=yes
+    when: ansible_pkg_mgr == "yum"
+
+  - block:   ### Block for Debian ###
+    - name: Install Apache for Debian
+      apt: name=apache2 state=latest
+
+    - name: Start Apache service for Debian
+      service: name=apache2 state=started enabled=yes
+    when: ansible_pkg_mgr == "apt"
+    
+    - name: Generate file from Jinja template
+      template: src={{ src_dir }}/index.j2 dest={{ dest_dir }}/index.html mode=0555
+      notify:
+        - Restart Apache RedHat
+        - Restart Apache Debian
+
+#  - name: Copy web_site to web server
+#    copy: src={{ item }} dest={{ dest_dir }}
+#    with_fileglob: "{{ src_dir }}/*.*"
+#
+#    loop:
+#      - "index.html"
+#      - "primer.png"
+#      - "bla_bla_bla.html"
+    
+    notify:
+      - Restart Apache RedHat
+      - Restart Apache Debian 
+
+  handlers:
+  - name: Restart Apache RedHat
+    service: name=httpd state=reloaded
+    when: ansible_pkg_mgr == "yum"
+
+  - name: Restart Apache Debian
+    service: name=apache2 state=reloaded
+    when: ansible_pkg_mgr == "apt"

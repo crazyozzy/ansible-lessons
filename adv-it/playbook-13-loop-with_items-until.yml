@@ -1,0 +1,36 @@
+---
+- name: loop-with_items-until-with_fileglob
+  hosts: amzn0
+  become: yes
+
+  tasks:
+    - name: Hello to all
+      debug: msg="Hello {{ item }}"
+      loop:
+        - "Vasia"
+        - "Petia"
+        - "Masha"
+        - "Pasha"
+
+    - name: remove myfile.txt
+      file:
+        path: myfile.txt
+        state: absent
+
+    - name: Loop until example
+      shell: echo -n Z >> myfile.txt && cat myfile.txt
+      register: output
+      delay: 2
+      retries: 10
+      until: output.stdout.find("ZZZZZ") == false
+
+    - name: Print output
+      debug:
+        var: output.stdout
+
+    - name: yum with_items #with_items similar to loop, but used in older than 2.5 Ansible version
+      yum: name={{ item }} state=latest
+      with_items:
+        - tree
+        - httpd
+        - curl
