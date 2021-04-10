@@ -1,6 +1,6 @@
 ---
 - name: Install Apache and upload site woth roles
-  hosts: all
+  hosts: "{{ MYHOSTS }}"
   become: yes
 
   roles:

@@ -1,0 +1,16 @@
+---
+- name: Ansible Lesson 19
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: yum problem install
+      yum: name=treeeee state=latest
+      ignore_errors: yes
+
+    - name: HW
+      shell: echo Hellow, Wolrd!!!
+
+    - name: Privet mir
+      shell: echo Privet, Mir!!!
+      
