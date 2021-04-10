@@ -1,2 +1,11 @@
 ---
 # handlers file for deploy_apache_web
+
+- name: Restart Apache RedHat
+  service: name=httpd state=reloaded
+  when: ansible_pkg_mgr == "yum"
+
+- name: Restart Apache Debian
+  service: name=apache2 state=reloaded
+  when: ansible_pkg_mgr == "apt"
+

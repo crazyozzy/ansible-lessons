@@ -1,2 +1,28 @@
 ---
 # tasks file for deploy_apache_web
+
+- name: Check and print Linux version
+  debug: var=ansible_os_family
+
+- block:   ### Block for RedHat ###
+  - name: Install Apache for RedHat
+    yum: name=httpd state=latest
+ 
+  - name: Start Apache service for RedHat
+    service: name=httpd state=started enabled=yes
+  when: ansible_pkg_mgr == "yum"
+
+- block:   ### Block for Debian ###
+  - name: Install Apache for Debian
+    apt: name=apache2 state=latest
+ 
+  - name: Start Apache service for Debian
+    service: name=apache2 state=started enabled=yes
+  when: ansible_pkg_mgr == "apt"
+
+- name: Generate file from Jinja template
+  template: src=index.j2 dest={{ dest_dir }}/index.html mode=0555
+  notify:
+    - Restart Apache RedHat
+    - Restart Apache Debian
+

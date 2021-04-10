@@ -1,5 +1,5 @@
 [amazon_linux]
-amzn0 ansible_host=13.49.76.48
+amzn0 ansible_host=13.49.0.52
 
 [ubuntu]
-ubnt0 ansible_host=13.51.157.203
+ubnt0 ansible_host=13.51.173.178

@@ -1,2 +1,4 @@
 ---
 # defaults file for deploy_apache_web
+
+dest_dir: /var/www/html
