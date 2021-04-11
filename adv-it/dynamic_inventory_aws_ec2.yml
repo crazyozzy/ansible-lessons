@@ -1,0 +1,9 @@
+plugin: aws_ec2
+regions:
+  - us-east-1
+  - us-west-1
+hostnames:
+  - tag:DNS_name
+keyed_groups:
+  - key: tags.ENV
+    separator: ''
