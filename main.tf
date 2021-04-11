@@ -12,6 +12,7 @@ resource "aws_instance" "Ansible_training_amzn" {
   key_name                             = "crazyozzy-key-Stockholm"
   tags = {
     Name = "Ansible_training_amzn"
+    Distrib = "Amazon_Linux"
   }
 }
 
@@ -24,6 +25,7 @@ resource "aws_instance" "Ansible_training_ubnt" {
   key_name                             = "crazyozzy-key-Stockholm"
   tags = {
     Name = "Ansible_training_ubnt"
+    Distrib = "Ubuntu"
   }
 }
 
