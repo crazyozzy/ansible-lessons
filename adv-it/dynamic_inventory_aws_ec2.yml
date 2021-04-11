@@ -1,9 +1,11 @@
+---
 plugin: aws_ec2
 regions:
-  - us-east-1
-  - us-west-1
-hostnames:
-  - tag:DNS_name
+  - "eu-north-1"
 keyed_groups:
-  - key: tags.ENV
-    separator: ''
+  - key: tags.Name
+  - key: tags.Distrib
+filters:
+  instance-state-name : running
+compose:
+  ansible_host: public_ip_address

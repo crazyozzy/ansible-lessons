@@ -1,0 +1,6 @@
+---
+- name: ping them all
+  hosts: aws_ec2
+  tasks:
+    - name: pinging
+      ping:
